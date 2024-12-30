@@ -107,15 +107,12 @@ const MasterData = () => {
 
   return (
     <div className="flex max-w-screen h-full mx-auto -translate-y-[6px] -translate-x-[16px]">
-      <div className='w-1/5 px-5 h-full'>
-        <h2 className="text-xl text-center font-semibold text-primary-dark mt-10 mb-8 underline underline-offset-8">
-          Master Data
-        </h2>
+      <div className='w-1/5 px-5 h-full mt-12'>
         <ul>
           {data.map((item, i) => (
-            <li key={i} className={`mb-2 cursor-pointer text-primary-dark ${currentSelectedTab === item.id ? 'underline underline-offset-2 decoration-2 decoration-primary-dark' : ''}`}>
+            <li key={i} className={`mb-4 cursor-pointer ${currentSelectedTab === item.id ? 'underline underline-offset-2 decoration-2 decoration-primary-dark' : ''}`}>
               <button 
-                className="bg-offwhite-light w-full text-primary-dark text-center rounded-lg shadow-lg p-2 cursor-pointer" 
+                className="bg-offwhite-light w-full text-test2-3 text-center rounded-lg shadow-lg p-2 cursor-pointer" 
                 onClick={() => setCurrentSelectedTab(item.id)}
               >
                 <h2 className="text-xl font-semibold">{item.label}</h2>
@@ -124,7 +121,7 @@ const MasterData = () => {
           ))}
         </ul>
       </div>
-      <div className='translate-y-[6px] border-r-2 border-primary-dark'></div>
+      <div className='translate-y-[6px] border-r-2 border-test2-2'></div>
       <div className='w-4/5 p-4'>
       <div className="p-4">
           {data.find(item => item.id === currentSelectedTab)?.Component || <div>Select a tab to view content</div>}

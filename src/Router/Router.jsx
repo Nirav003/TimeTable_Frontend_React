@@ -28,41 +28,6 @@ const Router = () => {
             <MasterData />
           </ProtectRoute>
         } />
-        <Route path='/master-data/room' element={
-          <ProtectRoute>
-            <Room />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/stream' element={
-          <ProtectRoute>
-            <Stream />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/subject' element={
-          <ProtectRoute>
-            <Subject />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/professor' element={
-          <ProtectRoute>
-            <Professor />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/shift' element={
-          <ProtectRoute>
-            <Shift />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/timeslot' element={
-          <ProtectRoute>
-            <TimeSlot />
-          </ProtectRoute>
-        } />
-        <Route path='/master-data/division' element={
-          <ProtectRoute>
-            <Division />
-          </ProtectRoute>
-        } />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
     </Routes>
