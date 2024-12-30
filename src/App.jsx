@@ -5,13 +5,15 @@ import { Toaster } from "react-hot-toast"
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <div className="pt-[120px] bg-primary-default h-screen w-screen">
+    <div className="h-screen flex flex-col">
+      <header>
+        <Navbar />
+      </header>
+      <main className="mt-20 flex-1 bg-primary-default p-4">
         <Router />
         <Toaster />
-      </div>
-    </>
+      </main>
+    </div>
   )
 }
 

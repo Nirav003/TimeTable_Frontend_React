@@ -24,7 +24,9 @@ const DropDownMenu = () => {
   };
 
   const handleLogout = async () => {
-    await axios.post(`${API_URL}/users/logout`);
+    await axios.get(`${API_URL}/user/logout`, {
+      withCredentials: true,
+    });
     localStorage.removeItem('token')
     setUser(null)
     toast.success("Logout Successful")
