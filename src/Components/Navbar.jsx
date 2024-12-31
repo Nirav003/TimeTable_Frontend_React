@@ -24,13 +24,13 @@ const Navbar = () => {
 
     return (
         <header className='fixed top-0 left-0 w-full z-50'>
-            <div className='bg-primary-dark p-3 flex flex-col justify-between items-center w-full'>
+            <div className='bg-test2-1 p-3 flex flex-col justify-between items-center w-full'>
                 <div>
                     <h1 className="text-base font-normal sm:text-xl sm:font-bold text-offwhite-dark">
                         VPM R.Z SHAH COLLEGE MULUND (E), MUMBAI
                     </h1>
                 </div>
-                <div className='bg-primary-dark flex justify-end md:relative md:justify-between items-center w-full'>
+                <div className='bg-test2-1 flex justify-end md:relative md:justify-between items-center w-full'>
                     <div className='hidden md:w-full md:block'>
                         <nav className='flex space-x-4 gap-2'>
                             {menuItem.map((item, i) => {
