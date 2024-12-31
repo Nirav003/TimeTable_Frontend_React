@@ -95,7 +95,7 @@ const Stream = () => {
     setFormData({ 
       name: stream.name,
       specialisation: stream.specialisation,
-      yearId: stream.year,
+      yearId: stream.year._id,
     });
     setEditMode(true);
     setCurrentId(stream._id);
@@ -147,7 +147,7 @@ const Stream = () => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-between w-full gap-6 mb-3">
+          <div className="flex items-center justify-between w-full gap-6 mb-4">
             <div className="w-full">
               <label
                 htmlFor="year"

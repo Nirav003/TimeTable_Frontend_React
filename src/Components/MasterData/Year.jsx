@@ -91,7 +91,7 @@ const Year = () => {
           </label>
         </div>
         <div className="mb-4 w-full flex items-center justify-between">
-        <div className="w-3/4">
+        <div className="w-1/2">
           <input
             type="text"
             id="year"

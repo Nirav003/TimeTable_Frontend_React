@@ -121,7 +121,7 @@ const MasterData = () => {
           ))}
         </ul>
       </div>
-      <div className='translate-y-[6px] border-r-2 border-test2-2'></div>
+      <div className='my-8 -translate-y-1 border-r-2 border-test2-2'></div>
       <div className='w-4/5 p-4'>
       <div className="p-4">
           {data.find(item => item.id === currentSelectedTab)?.Component || <div>Select a tab to view content</div>}

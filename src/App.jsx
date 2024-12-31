@@ -9,7 +9,7 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <main className="mt-20 flex-1 bg-test2-5 p-4">
+      <main className="py-20 flex-1 bg-test2-5 p-4">
         <Router />
         <Toaster />
       </main>

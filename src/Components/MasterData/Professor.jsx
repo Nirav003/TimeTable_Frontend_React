@@ -22,7 +22,7 @@ const Professor = () => {
       const response = await axios.get(`${API_URL}/college/professor`, {
         withCredentials: true,
       });
-      console.log('professors >>> ', response.data.professor);
+      // console.log('professors >>> ', response.data.professor);
       
       setProfessors(response.data.professor);
     } catch (error) {
@@ -36,7 +36,7 @@ const Professor = () => {
       const response = await axios.get(`${API_URL}/college/stream`, {
         withCredentials: true,
       });
-      console.log('streams >>> ', response.data.stream);
+      // console.log('streams >>> ', response.data.stream);
       
       setStreams(response.data.stream);
     } catch (error) {
