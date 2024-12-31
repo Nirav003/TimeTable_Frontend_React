@@ -13,6 +13,7 @@ import Professor from '../Components/MasterData/Professor'
 import Shift from '../Components/MasterData/Shift'
 import TimeSlot from '../Components/MasterData/TimeSlot'
 import Division from '../Components/MasterData/Division'
+import StreamSubjectMapping from '../Pages/Mapping/StreamSubjectMapping'
 
 const Router = () => {
   return (
@@ -26,6 +27,11 @@ const Router = () => {
         <Route path='/master-data' element={
           <ProtectRoute>
             <MasterData />
+          </ProtectRoute>
+        } />
+        <Route path='/mapping' element={
+          <ProtectRoute>
+            <StreamSubjectMapping />
           </ProtectRoute>
         } />
         <Route path='/login' element={<Login />} />

@@ -19,6 +19,10 @@ const Navbar = () => {
         {
             label: 'Master Data',
             to: '/master-data'
+        },
+        {
+            label: 'Mapping',
+            to: '/mapping'
         }
     ]
 
