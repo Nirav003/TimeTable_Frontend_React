@@ -106,7 +106,7 @@ const MasterData = () => {
     ]
 
   return (
-    <div className="flex max-w-screen h-full mx-auto -translate-y-[6px] -translate-x-[16px]">
+    <div className="flex max-w-screen mx-auto -translate-y-[6px] -translate-x-[16px]">
       <div className='w-1/5 px-5 h-full mt-12'>
         <ul>
           {data.map((item, i) => (
