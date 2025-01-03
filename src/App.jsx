@@ -18,19 +18,19 @@ function App() {
 }
 
 export default App
-import { useState } from 'react'
-import TogglePage from './Components/Auth/TogglePage'
-import './App.css'
+// import { useState } from 'react'
+// import TogglePage from './Components/Auth/TogglePage'
+// import './App.css'
 
-function App() {
+// function App() {
 
-  return (
-    <>
-      <div>
-        <TogglePage/>
-      </div>
-    </>
-  )
-}
+//   return (
+//     <>
+//       <div>
+//         <TogglePage/>
+//       </div>
+//     </>
+//   )
+// }
 
-export default App
+// export default App

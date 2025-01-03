@@ -23,6 +23,10 @@ const Navbar = () => {
         {
             label: 'Mapping',
             to: '/mapping'
+        },
+        {
+            label: 'Committee Members',
+            to: '/CommitteeMembers'
         }
     ]
 

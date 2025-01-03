@@ -14,6 +14,7 @@ import Shift from '../Components/MasterData/Shift'
 import TimeSlot from '../Components/MasterData/TimeSlot'
 import Division from '../Components/MasterData/Division'
 import StreamSubjectMapping from '../Pages/Mapping/StreamSubjectMapping'
+import CommitteeMembers from '../Pages/CommitteeMembers'
 
 const Router = () => {
   return (
@@ -34,6 +35,14 @@ const Router = () => {
             <StreamSubjectMapping />
           </ProtectRoute>
         } />
+
+        <Route path='/CommitteeMembers' element={
+          <ProtectRoute>
+            <CommitteeMembers />
+          </ProtectRoute>
+        } />
+
+        
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
     </Routes>
