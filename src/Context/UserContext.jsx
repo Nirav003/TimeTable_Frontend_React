@@ -7,6 +7,7 @@ export const userDataContext = createContext();
 const UserContext = ({ children }) => {
   
   const [user, setUser] = useState(null); 
+  const [roll, setRoll] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token'); 
@@ -23,15 +24,19 @@ const UserContext = ({ children }) => {
 
           if (response.status === 200) {
             const data = await response.data;
+            // console.log(data.user);
             setUser(data.user);
+            setRoll(data.user.roll);
           } else {
             console.error('Invalid token');
             localStorage.removeItem('token'); 
             setUser(null);
+            setRoll(null);
           }
         } catch (error) {
           console.error('Error fetching user:', error);
           setUser(null);
+          setRoll(null);
         }
       };
       fetchUser();
@@ -41,7 +46,7 @@ const UserContext = ({ children }) => {
   }, []);
 
   return (
-    <userDataContext.Provider value={{ user, setUser }}>
+    <userDataContext.Provider value={{ user, setUser, roll, setRoll }}>
       {children}
     </userDataContext.Provider>
   );

@@ -1,21 +1,21 @@
 import axios from "axios";
-import { BiLoaderCircle } from "react-icons/bi";
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../server";
 import { userDataContext } from "../Context/UserContext";
+import Loader from "../Components/Loader/Loader";
 
 function Login() {
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
   const { user, setUser } = useContext(userDataContext)
+  const { roll, setRoll } = useContext(userDataContext)
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -33,24 +33,23 @@ const handleLogin = async (e) => {
   try {
     const res = await axios.post(`${API_URL}/user/login`, formData, {withCredentials: true});
     const userDetail = res.data.user;
+    const userRoll = res.data.user.roll;
     localStorage.setItem('token', res.data.token)
-    setUser(userDetail); 
+    setUser(userDetail);
+    setRoll(userRoll);
     toast.success("Login Successful");
-    navigate('/'); // Redirect to home page after successful login
+    navigate('/');
   } catch (error) {
-    setError(error.response.data.error.statusCode);
-    toast.error(error.response.data.error.statusCode);
+    toast.error(error.response.data.message);
   } finally {
     setLoading(false);
-    setError(null);
   }
 }
 
   return (
     <>
-      <div className="h-screen flex items-center justify-center bg-cover bg-center">
+      <div className="h-full flex items-center justify-center bg-cover bg-center">
         <form onSubmit={handleLogin} className="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-sm w-full">
-          {error && <p className="text-red-500 font-semibold mb-2" >{error}</p>}
           <div className="mb-5">
             <label
               htmlFor="email"
@@ -102,7 +101,7 @@ const handleLogin = async (e) => {
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
             disabled={loading}
           >
-            <BiLoaderCircle className="animate-spin mx-auto" size={24} />
+            <Loader />
           </button>}
           <div className="flex items-start mt-5">
 
