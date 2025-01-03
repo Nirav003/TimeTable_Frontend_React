@@ -1,29 +1,35 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { GiHamburgerMenu } from "react-icons/gi";
 import DropDownMenu from './DropDownMenu'
+import { userDataContext } from '../Context/UserContext';
 
 const Navbar = () => {
 
     const [ isOpen, setIsOpen ] = useState(false);
     const location = useLocation();
+    const { role } = useContext(userDataContext)
     
     const menuItem = [
         {
             label: 'Home',
-            to: '/'
+            to: '/',
+            roles: ['admin', 'student']
         },
         {
             label: 'Lecture',
-            to: '/lecture'
+            to: '/lecture',
+            roles: ['admin', 'student']
         },
         {
             label: 'Master Data',
-            to: '/master-data'
+            to: '/master-data',
+            roles: ['admin']
         },
         {
             label: 'Mapping',
-            to: '/mapping'
+            to: '/mapping',
+            roles: ['admin']        
         }
     ]
 
@@ -39,16 +45,21 @@ const Navbar = () => {
                     <div className='hidden md:w-full md:block'>
                         <nav className='flex space-x-4 gap-2'>
                             {menuItem.map((item, i) => {
-                                const isActive = location.pathname === item.to;
-                                return (
-                                    <Link 
-                                        key={i} 
-                                        to={item.to} 
-                                        className={`font-medium text-lg text-primary-2 ${isActive ? "underline underline-offset-8 decoration-2 decoration-primary-2" : "hover:underline underline-offset-8 decoration-2 decoration-primary-2"}`}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                )
+                                const hasAccess = role && item.roles.includes(role);
+                                if (hasAccess) {
+                                    const isActive = location.pathname === item.to;
+                                    return (
+                                        <Link 
+                                            key={i} 
+                                            to={item.to} 
+                                            className={`font-medium text-lg text-primary-2 ${isActive ? "underline underline-offset-8 decoration-2 decoration-primary-2" : "hover:underline underline-offset-8 decoration-2 decoration-primary-2"}`}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    )
+                                } else {
+                                    return null
+                                }
                             })}
                         </nav>
                     </div>
@@ -69,9 +80,16 @@ const Navbar = () => {
                     <div className="md:hidden bg-primary-dark p-4">
                         <nav className="flex flex-col items-start justify-center w-screen px-10 space-y-4" onClick={prev => setIsOpen(!prev)}>
                             {
-                                menuItem.map(( item, i ) => (
-                                    <Link key={i} to={item.to} className="text-offwhite-light hover:underline underline-offset-8 decoration-2 decoration-offwhite-light">{item.label}</Link>
-                                ))
+                                menuItem.map(( item, i ) => {
+                                    const hasAccess = role && item.roles.includes(role);
+                                    if(hasAccess) {
+                                        return (
+                                            <Link key={i} to={item.to} className="text-offwhite-light hover:underline underline-offset-8 decoration-2 decoration-offwhite-light">{item.label}</Link>
+                                        )
+                                    } else {
+                                        return null
+                                    }
+                                })
                             }
                         </nav>
                     </div>

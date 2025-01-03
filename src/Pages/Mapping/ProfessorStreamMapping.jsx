@@ -212,7 +212,6 @@ const ProfessorStreamMapping = () => {
           <tbody>
             {mappings.map((mapping) => {
                 const { professor, stream } = mapping;
-                console.log(mapping)
                 
                 return (
                     <tr key={mapping._id}>

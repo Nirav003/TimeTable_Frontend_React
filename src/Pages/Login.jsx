@@ -15,7 +15,7 @@ function Login() {
   });
   const navigate = useNavigate();
   const { user, setUser } = useContext(userDataContext)
-  const { roll, setRoll } = useContext(userDataContext)
+  const { role, setRole } = useContext(userDataContext)
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -36,7 +36,7 @@ const handleLogin = async (e) => {
     const userRoll = res.data.user.roll;
     localStorage.setItem('token', res.data.token)
     setUser(userDetail);
-    setRoll(userRoll);
+    setRole(userRoll);
     toast.success("Login Successful");
     navigate('/');
   } catch (error) {
