@@ -5,31 +5,15 @@ import { Toaster } from "react-hot-toast"
 
 function App() {
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-screen flex flex-col">
       <header>
         <Navbar />
       </header>
-      <main className="py-20 flex-1 bg-test2-5 p-4">
+      <main className="mt-20 flex-1 bg-test2-5 p-4">
         <Router />
         <Toaster />
       </main>
     </div>
-  )
-}
-
-export default App
-import { useState } from 'react'
-import TogglePage from './Components/Auth/TogglePage'
-import './App.css'
-
-function App() {
-
-  return (
-    <>
-      <div>
-        <TogglePage/>
-      </div>
-    </>
   )
 }
 
