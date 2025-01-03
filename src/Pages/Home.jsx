@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div className=''>
-      {loading ? <Loader /> : Home}
+      {loading ? <Loader /> : "Home"}
     </div>
   )
 }

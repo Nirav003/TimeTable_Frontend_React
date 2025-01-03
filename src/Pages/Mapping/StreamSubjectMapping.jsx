@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../server"; // Replace with your API base URL
+import toast from "react-hot-toast";
 
 const StreamSubjectMapping = () => {
   const [streams, setStreams] = useState([]);
@@ -30,7 +31,7 @@ const StreamSubjectMapping = () => {
   // Fetch all mappings
   const fetchMappings = async () => {
     try {
-      const res = await axios.get(`${API_URL}/college/mapping`, { withCredentials: true });
+      const res = await axios.get(`${API_URL}/college/mapping/stream-subject`, { withCredentials: true });
       setMappings(res.data.mapping);
     } catch (error) {
       console.error("Error fetching mappings:", error);
@@ -47,11 +48,11 @@ const StreamSubjectMapping = () => {
     e.preventDefault();
     try {
       if (editMode) {
-        await axios.patch(`${API_URL}/college/mapping/${currentId}`, formData, {
+        await axios.patch(`${API_URL}/college/mapping/stream-subject/${currentId}`, formData, {
           withCredentials: true,
         });
       } else {
-        await axios.post(`${API_URL}/college/create-mapping`, formData, {
+        await axios.post(`${API_URL}/college/create-mapping/stream-subject`, formData, {
           withCredentials: true,
         });
       }
@@ -69,12 +70,15 @@ const StreamSubjectMapping = () => {
 
   // Handle delete
   const handleDelete = async (id) => {
+    console.log(id);
+    
     if (window.confirm("Are you sure you want to delete this mapping?")) {
       try {
-        await axios.delete(`${API_URL}/college/ mapping/${id}`, { withCredentials: true });
+        await axios.delete(`${API_URL}/college/mapping/stream-subject/${id}`, { withCredentials: true });
         fetchMappings();
       } catch (error) {
         console.error("Error deleting mapping:", error);
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -203,7 +207,7 @@ const StreamSubjectMapping = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(mapping._id)}
+                    onClick={() => handleDelete(mapping.stream._id)}
                     className="text-red-500 hover:text-red-700 font-bold py-1 px-3 rounded"
                   >
                     Delete
