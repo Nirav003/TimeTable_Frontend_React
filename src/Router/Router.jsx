@@ -21,6 +21,11 @@ const Router = () => {
             <MasterData />
           </ProtectRoute>
         } />
+        <Route path='/mapping' element={
+          <ProtectRoute>
+            <StreamSubjectMapping />
+          </ProtectRoute>
+        } />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
     </Routes>
