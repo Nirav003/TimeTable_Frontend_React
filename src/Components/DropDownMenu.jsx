@@ -55,17 +55,17 @@ const DropDownMenu = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center focus:outline-none"
       >
-        <ImUser className="text-offwhite-light hover:text-test2-4 hover:bg-offwhite-light w-8 h-8 rounded-md" />
+        <ImUser className="text-offwhite-light hover:text-primary-2 hover:bg-offwhite-light w-8 h-8 rounded-md" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-test2-4 rounded-md shadow-lg focus:outline-none">
+        <div className="absolute right-0 mt-2 w-48 bg-primary-5 rounded-md shadow-lg focus:outline-none">
           <div className="py-1">
             {user ? (
               <>  
                   <button
                       onClick={handleLogout}
-                      className="block w-full px-4 py-2 text-left text-sm text-offwhite-light hover:bg-offwhite-dark hover:text-test2-3"
+                      className="block w-full px-4 py-2 text-left text-sm text-offwhite-light hover:bg-offwhite-dark hover:text-primary-4"
                   >
                       Logout
                   </button>

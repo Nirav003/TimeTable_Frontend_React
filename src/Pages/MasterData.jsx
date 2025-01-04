@@ -8,6 +8,7 @@ import TimeSlot from '../Components/MasterData/TimeSlot';
 import Shift from '../Components/MasterData/Shift';
 import Year from '../Components/MasterData/Year';
 import Lecture from '../Components/MasterData/Lecture';
+import SelectFile from '../Components/Select File/SelectFile';
 
 const initialRoom = {
   roomType: '',
@@ -55,7 +56,7 @@ const initialYear = {
 
 const MasterData = () => {
     
-    const [currentSelectedTab, setCurrentSelectedTab] = useState('room');
+    const [currentSelectedTab, setCurrentSelectedTab] = useState('');
 
     const data = [
         {
@@ -121,10 +122,10 @@ const MasterData = () => {
           ))}
         </ul>
       </div>
-      <div className='my-8 -translate-y-1 border-r-2 border-test2-2'></div>
+      <div className='my-8 translate-y-5 border-r-2 border-test2-2'></div>
       <div className='w-4/5 p-4'>
-      <div className="p-4">
-          {data.find(item => item.id === currentSelectedTab)?.Component || <div>Select a tab to view content</div>}
+        <div className="p-4">
+          {data.find(item => item.id === currentSelectedTab)?.Component || <SelectFile />}
         </div>
       </div>
     </div>
