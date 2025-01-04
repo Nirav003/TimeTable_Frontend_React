@@ -19,4 +19,6 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: #9d96ff;
   }
-  
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
