@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../Pages/Home'
 import Lecture from '../Pages/Lecture/Lecture'
@@ -6,33 +6,52 @@ import MasterData from '../Pages/MasterData'
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
 import ProtectRoute from '../Components/ProtectRoute'
-import Room from '../Components/MasterData/Room'
-import Stream from '../Components/MasterData/Stream'
-import Subject from '../Components/MasterData/Subject'
-import Professor from '../Components/MasterData/Professor'
-import Shift from '../Components/MasterData/Shift'
-import TimeSlot from '../Components/MasterData/TimeSlot'
-import Division from '../Components/MasterData/Division'
-import StreamSubjectMapping from '../Pages/Mapping/StreamSubjectMapping'
-import CommitteeMembers from '../Pages/CommitteeMembers'
+import Mapping from '../Pages/Mapping/Mapping'
+import { userDataContext } from '../Context/UserContext'
+import Unauthorized from '../Pages/UnAuthorized/Unauthorized'
+import Student from '../Pages/Lecture/Time Table/Student'
+import Admin from '../Pages/Lecture/Time Table/Admin'
 
 const Router = () => {
+
+  const { role } = useContext(userDataContext);
+
   return (
     <Routes>
+        {/* Accessed by anyone */}
+        <Route path='*' element={<Home />} />
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/unauthorized' element={<Unauthorized />} />
+
         <Route path='/lecture' element={
-          <ProtectRoute>
+          <ProtectRoute 
+            allowedRoles={['student', 'admin']} 
+            role={role} 
+            student={<Student />}
+            admin={<Admin />}
+          >
             <Lecture />
           </ProtectRoute>
         } />
+
+        {/* admin routes */}
+
         <Route path='/master-data' element={
-          <ProtectRoute>
+          <ProtectRoute allowedRoles={['admin']} role={role}>
             <MasterData />
           </ProtectRoute>
         } />
+        
         <Route path='/mapping' element={
-          <ProtectRoute>
-            <StreamSubjectMapping />
+          <ProtectRoute allowedRoles={['admin']} role={role}>
+            <Mapping />
+          </ProtectRoute>
+        } />
+        
+        <Route path='/signup' element={
+          <ProtectRoute allowedRoles={['admin']} role={role}>
+            <SignUp />
           </ProtectRoute>
         } />
 

@@ -9,28 +9,12 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <main className="mt-20 flex-1 bg-test2-5 p-4">
+      <main className="mt-20 flex-1 bg-primary-3 text-primary-4 p-4">
         <Router />
-        <Toaster />
       </main>
+        <Toaster />
     </div>
   )
 }
 
 export default App
-// import { useState } from 'react'
-// import TogglePage from './Components/Auth/TogglePage'
-// import './App.css'
-
-// function App() {
-
-//   return (
-//     <>
-//       <div>
-//         <TogglePage/>
-//       </div>
-//     </>
-//   )
-// }
-
-// export default App

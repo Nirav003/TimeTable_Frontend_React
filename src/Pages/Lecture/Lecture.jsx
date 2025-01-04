@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { userDataContext } from '../../Context/UserContext'
+import Admin from './Time Table/Admin'
+import Student from './Time Table/Student'
 
 const Lecture = () => {
+
+  const { user, roll } = useContext(userDataContext);
+  
   return (
-    <div>Lecture</div>
+    <div>
+      {roll === "admin" ? <Admin /> : <Student />}
+    </div>
   )
 }
 
