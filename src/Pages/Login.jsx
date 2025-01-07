@@ -33,12 +33,12 @@ const handleLogin = async (e) => {
   try {
     const res = await axios.post(`${API_URL}/user/login`, formData, {withCredentials: true});
     const userDetail = res.data.user;
-    const userRoll = res.data.user.roll;
+    const userRole = res.data.user.role;
     localStorage.setItem('token', res.data.token)
     setUser(userDetail);
-    setRole(userRoll);
+    setRole(userRole);
     toast.success("Login Successful");
-    navigate('/');
+    navigate('/home');
   } catch (error) {
     toast.error(error.response.data.message);
   } finally {

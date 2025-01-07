@@ -1,40 +1,33 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { userDataContext } from '../Context/UserContext';
 
 const ProtectRoute = ({
     children,
-    role = '',
-    allowedRoles = [],
-    student,
-    admin
+    allowedRoles
 }) => {
-  
+    
     const token = localStorage.getItem('token');
+    const user = useContext(userDataContext);
     const navigate = useNavigate();
+
+    const userRequiredRole = user && Array.isArray(allowedRoles) && allowedRoles.includes(user.role)
 
     useEffect(() => {
         if (!token) {
             navigate('/login')
-        } else if (!allowedRoles.includes(role)) {
-            
+        } 
+        
+        if (user && !userRequiredRole) {
             navigate('/unauthorized')
         }
-    }, [token, role, allowedRoles, navigate]);
 
-    if(role ==='student' && student) {
-        return student
-    }
-    else if(role === 'admin' && admin) {
-        return admin
-    }
+    }, [token, allowedRoles, navigate]);
 
     return (
-        token && allowedRoles.includes(role) ?
         <>
             {children}
         </>
-        :
-            null
     )
 }
 

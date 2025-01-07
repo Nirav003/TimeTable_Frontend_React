@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../Pages/Home'
 import Lecture from '../Pages/Lecture/Lecture'
@@ -7,29 +7,22 @@ import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
 import ProtectRoute from '../Components/ProtectRoute'
 import Mapping from '../Pages/Mapping/Mapping'
-import { userDataContext } from '../Context/UserContext'
 import Unauthorized from '../Pages/UnAuthorized/Unauthorized'
-import Student from '../Pages/Lecture/Time Table/Student'
-import Admin from '../Pages/Lecture/Time Table/Admin'
+import CommitteeMembers from '../Pages/CommitteeMembers'
 
 const Router = () => {
-
-  const { role } = useContext(userDataContext);
 
   return (
     <Routes>
         {/* Accessed by anyone */}
         <Route path='*' element={<Home />} />
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/' element={<Login />} />
         <Route path='/unauthorized' element={<Unauthorized />} />
 
         <Route path='/lecture' element={
           <ProtectRoute 
             allowedRoles={['student', 'admin']} 
-            role={role} 
-            student={<Student />}
-            admin={<Admin />}
           >
             <Lecture />
           </ProtectRoute>
@@ -38,32 +31,31 @@ const Router = () => {
         {/* admin routes */}
 
         <Route path='/master-data' element={
-          <ProtectRoute allowedRoles={['admin']} role={role}>
+          <ProtectRoute allowedRoles={['admin']}>
             <MasterData />
           </ProtectRoute>
         } />
         
         <Route path='/mapping' element={
-          <ProtectRoute allowedRoles={['admin']} role={role}>
+          <ProtectRoute allowedRoles={['admin']}>
             <Mapping />
           </ProtectRoute>
         } />
         
         <Route path='/signup' element={
-          <ProtectRoute allowedRoles={['admin']} role={role}>
+          <ProtectRoute allowedRoles={['admin']}>
             <SignUp />
           </ProtectRoute>
         } />
 
         <Route path='/CommitteeMembers' element={
-          <ProtectRoute>
+          <ProtectRoute allowedRoles={['management']}>
             <CommitteeMembers />
           </ProtectRoute>
         } />
 
         
         <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
     </Routes>
   )
 }
