@@ -1,41 +1,39 @@
-import React, { useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, Navigate, replace, useLocation, useNavigate } from 'react-router-dom'
 import { GiHamburgerMenu } from "react-icons/gi";
-import DropDownMenu from './DropDownMenu'
 import { userDataContext } from '../Context/UserContext';
+import getMenu from '../utility/getMenu';
+import axios from 'axios';
+import { API_URL } from '../server';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
 
     const [ isOpen, setIsOpen ] = useState(false);
+    const [ menuItem, setMenuItem ] = useState([]);
+    const { user, role, setUser, setRole } = useContext(userDataContext)
     const location = useLocation();
-    const { role } = useContext(userDataContext)
+    const navigate = useNavigate();
     
-    const menuItem = [
-        {
-            label: 'Home',
-            to: '/',
-            roles: ['admin', 'student']
-        },
-        {
-            label: 'Lecture',
-            to: '/lecture',
-            roles: ['admin', 'student']
-        },
-        {
-            label: 'Master Data',
-            to: '/master-data',
-            roles: ['admin']
-        },
-        {
-            label: 'Mapping',
-            to: '/mapping',
-            roles: ['admin']        
-        },
-        {
-            label: 'Committee Members',
-            to: '/CommitteeMembers'
+    useEffect(() => {
+        if(role) {
+            setMenuItem(getMenu(role));
+        } else {
+            setMenuItem([]);
         }
-    ]
+    }, [role]);
+
+    const handleLogout = async () => {
+        await axios.get(`${API_URL}/user/logout`, {
+            withCredentials: true,
+        });
+        localStorage.removeItem('token')
+        setUser(null)
+        setRole(null)
+        toast.success("Logout Successful")
+        navigate('/', { replace: true })
+        setIsOpen(false)
+    }
 
     return (
         <header className='fixed top-0 left-0 w-full z-50'>
@@ -49,21 +47,16 @@ const Navbar = () => {
                     <div className='hidden md:w-full md:block'>
                         <nav className='flex space-x-4 gap-2'>
                             {menuItem.map((item, i) => {
-                                const hasAccess = role && item.roles.includes(role);
-                                if (hasAccess) {
-                                    const isActive = location.pathname === item.to;
-                                    return (
-                                        <Link 
-                                            key={i} 
-                                            to={item.to} 
-                                            className={`font-medium text-lg text-primary-2 ${isActive ? "underline underline-offset-8 decoration-2 decoration-primary-2" : "hover:underline underline-offset-8 decoration-2 decoration-primary-2"}`}
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    )
-                                } else {
-                                    return null
-                                }
+                                const isActive = location.pathname === item.to;
+                                return (
+                                    <Link 
+                                        key={i} 
+                                        to={item.to} 
+                                        className={`font-medium text-lg text-primary-2 ${isActive ? "underline underline-offset-8 decoration-2 decoration-primary-2" : "hover:underline underline-offset-8 decoration-2 decoration-primary-2"}`}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                )
                             })}
                         </nav>
                     </div>
@@ -76,7 +69,13 @@ const Navbar = () => {
                         </button>
                     </div>
                     <div>
-                        <DropDownMenu /> 
+                        {/* <DropDownMenu /> */}
+                        {user && <button
+                            onClick={handleLogout}
+                            className="block w-full px-2 py-1 text-left text-sm text-primary-2 hover:bg-offwhite-dark rounded-sm"
+                        >
+                            Logout
+                        </button>}
                     </div>       
                 </div>
 
@@ -85,14 +84,9 @@ const Navbar = () => {
                         <nav className="flex flex-col items-start justify-center w-screen px-10 space-y-4" onClick={prev => setIsOpen(!prev)}>
                             {
                                 menuItem.map(( item, i ) => {
-                                    const hasAccess = role && item.roles.includes(role);
-                                    if(hasAccess) {
-                                        return (
-                                            <Link key={i} to={item.to} className="text-offwhite-light hover:underline underline-offset-8 decoration-2 decoration-offwhite-light">{item.label}</Link>
-                                        )
-                                    } else {
-                                        return null
-                                    }
+                                    return (
+                                        <Link key={i} to={item.to} className="text-offwhite-light hover:underline underline-offset-8 decoration-2 decoration-offwhite-light">{item.label}</Link>
+                                    )
                                 })
                             }
                         </nav>
