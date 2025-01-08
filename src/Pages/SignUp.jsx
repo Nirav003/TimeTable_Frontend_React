@@ -8,18 +8,19 @@ import Loader from '../Components/Loader/Loader.jsx';
 
 const SignUp = () => {
   
-  const { user, setUser } = useContext(userDataContext);
-  const { roll, setRoll } = useContext(userDataContext);
+  const { setUser } = useContext(userDataContext);
+  const { setRole } = useContext(userDataContext);
   const navigate = useNavigate();
 
   const [ loading, setLoading ] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     batch: "",
     year: "",
     phone: "",
     password: "",
+    role: ""
   });
 
   const handleChange = (e) => {
@@ -39,16 +40,31 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_URL}/users/signup`, formData, { withCredentials: true });
-      const userDetail = res.data.data.user;
-      const userRoll = res.data.data.user.roll;
-      localStorage.setItem('token', res.data.token)
-      setUser(userDetail);
-      setRoll(userRoll);
+      const res = await axios.post(`${API_URL}/user/register`, 
+      formData, { 
+        withCredentials: true
+      });
+      console.log(res.data);
+      
+      const userDetail = res.data.user;
+      const userRole = res.data.user.role;
+      // localStorage.setItem('token', res.data.token)
+      // setUser(userDetail);
+      // setRole(userRole);
+      setFormData({
+        name: "",
+        email: "",
+        batch: "",
+        year: "",
+        phone: "",
+        password: "",
+        role: ""
+      });
       toast.success("SignUp Successful");
       navigate('/');
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error.response.data.message || error.message);
     } finally {
       setLoading(false);
     }
@@ -57,23 +73,23 @@ const SignUp = () => {
 
   return (
     <>
-    <div className="h-screen flex items-center justify-center bg-cover bg-center">
+    <div className="flex items-center justify-center h-full">
         <form onSubmit={handleSignUp} className="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 max-w-sm w-full md:max-w-full md:w-3/4">
           <div className='flex items-center justify-between gap-5 w-full'>
             <div className="w-full mb-5">
               <label
-                htmlFor="username"
+                htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Name
               </label>
               <input
                 type="text"
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter Your Name"
-                value={formData.username}
+                value={formData.name}
                 onChange={handleChange}
                 required
               />
@@ -150,10 +166,11 @@ const SignUp = () => {
               <input
                 type="number"
                 id="phone"
-                number="phone"
+                name="phone"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 required
                 placeholder="Enter Your Phone No"
+                maxLength={10}
                 value={formData.phone}
                 onChange={handleChange}
               />
@@ -178,22 +195,29 @@ const SignUp = () => {
             </div>
           </div>
 
-          {/* <div className="mb-5">
+          <div className='w-full mb-5'>
             <label
-              htmlFor="passwordConfirmation"
+              htmlFor="role"
               className="block mb-2 text-sm font-medium text-gray-900 "
             >
-              Confirm Password
+              Role
             </label>
-            <input
-              type="password"
-              id="passwordConfirmation"
+            <select
+              id="role"
+              name="role"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
-              placeholder="Enter Again Your Password"
-              onChange={e => setpasswordConfirmation(e.target.value)}
-            />
-            </div> */}
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="management">Management</option>
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+            </select>
+
+          </div>
           
           <button
             type="submit"
