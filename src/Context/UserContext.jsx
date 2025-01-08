@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { createContext, useState, useEffect } from 'react';
 import { API_URL } from '../server';
+import toast from 'react-hot-toast';
 
 export const userDataContext = createContext();
 
@@ -26,15 +27,17 @@ const UserContext = ({ children }) => {
             const data = await response.data;
             // console.log(data);
             setUser(data.user);
-            setRole(data.user.roll);
+            setRole(data.user.role);
           } else {
             console.error('Invalid token');
+            toast.error('Invalid token');
             localStorage.removeItem('token'); 
             setUser(null);
             setRole(null);
           }
         } catch (error) {
           console.error('Error fetching user:', error);
+          toast.error(error.response.data.message);
           setUser(null);
           setRole(null);
         }
