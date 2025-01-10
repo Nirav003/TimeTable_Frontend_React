@@ -9,6 +9,7 @@ import ProtectRoute from '../Components/ProtectRoute'
 import Mapping from '../Pages/Admin/Mapping/Mapping'
 import Unauthorized from '../Components/UnAuthorized/Unauthorized'
 import CommitteeMembers from '../Pages/Management/CommitteeMembers'
+import Users from '../Pages/Admin/Users/Users'
 
 const Router = () => {
 
@@ -22,7 +23,7 @@ const Router = () => {
 
         <Route path='/lecture' element={
           <ProtectRoute 
-            allowedRoles={['student', 'admin']} 
+            allowedRoles={['student', 'admin', 'staff']} 
           >
             <Lecture />
           </ProtectRoute>
@@ -39,6 +40,12 @@ const Router = () => {
         <Route path='/mapping' element={
           <ProtectRoute allowedRoles={['admin']}>
             <Mapping />
+          </ProtectRoute>
+        } />
+
+        <Route path='/users' element={
+          <ProtectRoute allowedRoles={['admin']}>
+            <Users />
           </ProtectRoute>
         } />
         
