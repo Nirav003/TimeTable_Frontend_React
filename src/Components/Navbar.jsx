@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, Navigate, replace, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { userDataContext } from '../Context/UserContext';
 import getMenu from '../utility/getMenu';
 import axios from 'axios';
-import { API_URL } from '../server';
+import { API_URL } from '../Api/server';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
         setUser(null)
         setRole(null)
         toast.success("Logout Successful")
-        navigate('/', { replace: true })
+        navigate('/')
         setIsOpen(false)
     }
 
@@ -69,10 +69,9 @@ const Navbar = () => {
                         </button>
                     </div>
                     <div>
-                        {/* <DropDownMenu /> */}
                         {user && <button
                             onClick={handleLogout}
-                            className="block w-full px-2 py-1 text-left text-sm text-primary-2 hover:bg-offwhite-dark rounded-sm"
+                            className="block w-full px-4 py-2 text-base text-primary-1 bg-primary-4 hover:bg-primary-2 hover:text-white rounded-sm"
                         >
                             Logout
                         </button>}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import StreamSubjectMapping from './StreamSubjectMapping'
 import ProfessorStreamMapping from './ProfessorStreamMapping'
-import SelectFile from '../../Components/Select File/SelectFile'
+import SelectFile from '../../../Components/Select File/SelectFile'
 
 const Mapping = () => {
 

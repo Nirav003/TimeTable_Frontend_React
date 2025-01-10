@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Room from '../Components/MasterData/Room';
-import Stream from '../Components/MasterData/Stream';
-import Professor from '../Components/MasterData/Professor';
-import Subject from '../Components/MasterData/Subject';
-import Division from '../Components/MasterData/Division';
-import TimeSlot from '../Components/MasterData/TimeSlot';
-import Shift from '../Components/MasterData/Shift';
-import Year from '../Components/MasterData/Year';
-import Lecture from '../Components/MasterData/Lecture';
-import SelectFile from '../Components/Select File/SelectFile';
+import Room from '../../Components/MasterData/Room';
+import Stream from '../../Components/MasterData/Stream';
+import Professor from '../../Components/MasterData/Professor';
+import Subject from '../../Components/MasterData/Subject';
+import Division from '../../Components/MasterData/Division';
+import TimeSlot from '../../Components/MasterData/TimeSlot';
+import Shift from '../../Components/MasterData/Shift';
+import Year from '../../Components/MasterData/Year';
+import Lecture from '../../Components/MasterData/Lecture';
+import SelectFile from '../../Components/Select File/SelectFile';
 
 const initialRoom = {
   roomType: '',

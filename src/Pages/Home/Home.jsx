@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import Loader from '../Components/Loader/Loader';
-import { userDataContext } from '../Context/UserContext';
+import Loader from '../../Components/Loader/Loader';
+import { userDataContext } from '../../Context/UserContext';
 
 const Home = () => {
 

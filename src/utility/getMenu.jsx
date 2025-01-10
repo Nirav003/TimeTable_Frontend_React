@@ -1,3 +1,5 @@
+import React from 'react'
+
 const menu = [
     {
         label: 'Home',
@@ -7,7 +9,7 @@ const menu = [
     {
         label: 'Lecture',
         to: '/lecture',
-        roles: ['admin', 'student', 'management', 'staff']
+        roles: ['admin', 'student', 'staff']
     },
     {
         label: 'Master Data',
@@ -23,10 +25,18 @@ const menu = [
         label: 'Committee Members',
         to: '/CommitteeMembers',
         roles: ['management']
+    },
+    {
+        label: 'Users',
+        to: '/users',
+        roles: ['admin']
+    },
+    {
+        label: 'SignUp',
+        to: '/signup',
+        roles: ['admin']
     }
 ]
-
-import React from 'react'
 
 const getMenu = (role) => {
     return (  
