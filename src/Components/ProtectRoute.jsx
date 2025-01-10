@@ -26,7 +26,7 @@ const ProtectRoute = ({
             navigate('/unauthorized')
         }
 
-    }, [token, user, userRequiredRole, navigate]);
+    }, [token, userRequiredRole, navigate]);
 
 
     return (

@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "../../Api/server";
+import React from "react";
 
 const CommitteeMembers = () => {
-  const [professors, setProfessors] = useState([]);
 
-
-  
-
-  // Fetch all professors
-  const fetchProfessors = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/college/professor`, {
-        withCredentials: true,
-      });
-      setProfessors(response.data.professor);
-    } catch (error) {
-      console.error("Error fetching professors:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfessors();
-  }, []);
+  const professors = [
+    { name: "Prof. Dr. Ramanujan Sivaraman", designation: "Professor", emailId: "rsivaraman@gmail.com", phoneNumber: "9876543210" },
+    { name: "Prof. Dr. Sameer Kishore", designation: "Professor", emailId: "skishore@gmail.com", phoneNumber: "9876543210" },
+    { name: "Prof. Dr. Sudhir Kumar", designation: "Professor", emailId: "skumar@gmail.com", phoneNumber: "9876543210" },
+    { name: "Prof. Dr. Prasanna Kishore", designation: "Professor", emailId: "pkishore@gmail.com", phoneNumber: "9876543210" },
+  ]
 
   return (
 
@@ -48,7 +33,7 @@ const CommitteeMembers = () => {
           </thead>
           <tbody>
             {professors.map((professor) => (
-              <tr key={professor._id}>
+              <tr key={professor.name}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {professor.name}
                 </td>
