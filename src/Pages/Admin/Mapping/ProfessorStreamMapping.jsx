@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../../server"; // Replace with your API base URL
+import { API_URL } from "../../../Api/server";
 import toast from "react-hot-toast";
 
 const ProfessorStreamMapping = () => {

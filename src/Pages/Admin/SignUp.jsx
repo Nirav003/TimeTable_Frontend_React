@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_URL } from '../server.js';
+import { API_URL } from '../../Api/server.js';
 import toast from 'react-hot-toast';
-import { userDataContext } from '../Context/UserContext.jsx';
-import Loader from '../Components/Loader/Loader.jsx';
+import { userDataContext } from '../../Context/UserContext.jsx';
+import Loader from '../../Components/Loader/Loader.jsx';
 
 const SignUp = () => {
   
