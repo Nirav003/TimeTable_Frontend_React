@@ -1,28 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { API_URL } from "../../Api/server";
+import React from 'react';
 
 const CommitteeMembers = () => {
-  const [professors, setProfessors] = useState([]);
-
-
   
-
-  // Fetch all professors
-  const fetchProfessors = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/college/professor`, {
-        withCredentials: true,
-      });
-      setProfessors(response.data.professor);
-    } catch (error) {
-      console.error("Error fetching professors:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfessors();
-  }, []);
+  const professors = [
+    { _id: "1", name: "Prof. John Doe", designation: "Assistant Professor", emailId: "johndoe@example.com", phoneNo: "1234567890" },
+    { _id: "2", name: "Dr. Jane Smith", designation: "Professor", emailId: "janesmith@example.com", phoneNo: "0987654321" },
+    { _id: "3", name: "Mr. Michael Johnson", designation: "Associate Professor", emailId: "michaeljohnson@example.com", phoneNo: "9876543210" },
+  ]
 
   return (
 
@@ -59,7 +43,7 @@ const CommitteeMembers = () => {
                   {professor.emailId}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.phoneNumber}/
+                  {professor.phoneNo}
                 </td>
               </tr>
             ))}
