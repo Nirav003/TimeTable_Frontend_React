@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../server";
-import { userDataContext } from "../Context/UserContext";
-import Loader from "../Components/Loader/Loader";
+import { API_URL } from "../../Api/server";
+import { userDataContext } from "../../Context/UserContext";
+import Loader from "../../Components/Loader/Loader";
 
 function Login() {
 

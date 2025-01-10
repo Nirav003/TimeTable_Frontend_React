@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../../server";
+import { API_URL } from "../../Api/server";
 
 const generateTimeOptions = () => {
   const times = [];

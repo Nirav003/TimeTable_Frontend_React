@@ -15,14 +15,19 @@ const ProtectRoute = ({
 
     useEffect(() => {
         if (!token) {
-            navigate('/login')
+            navigate('/')
         } 
         
+        if(!user) {
+            navigate('/')
+        }
+
         if (user && !userRequiredRole) {
             navigate('/unauthorized')
         }
 
-    }, [token, allowedRoles, navigate]);
+    }, [token, user, userRequiredRole, navigate]);
+
 
     return (
         <>
