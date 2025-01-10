@@ -1,14 +1,14 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Home from '../Pages/Home'
+import Home from '../Pages/Home/Home'
 import Lecture from '../Pages/Lecture/Lecture'
-import MasterData from '../Pages/MasterData'
-import Login from '../Pages/Login'
-import SignUp from '../Pages/SignUp'
+import MasterData from '../Pages/Admin/MasterData'
+import Login from '../Pages/Auth/Login'
+import SignUp from '../Pages/Admin/SignUp'
 import ProtectRoute from '../Components/ProtectRoute'
-import Mapping from '../Pages/Mapping/Mapping'
+import Mapping from '../Pages/Admin/Mapping/Mapping'
 import Unauthorized from '../Components/UnAuthorized/Unauthorized'
-import CommitteeMembers from '../Pages/CommitteeMembers'
+import CommitteeMembers from '../Pages/Management/CommitteeMembers'
 
 const Router = () => {
 

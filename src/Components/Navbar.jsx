@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { userDataContext } from '../Context/UserContext';
 import getMenu from '../utility/getMenu';
 import axios from 'axios';
-import { API_URL } from '../server';
+import { API_URL } from '../Api/server';
 import toast from 'react-hot-toast';
 
 const Navbar = () => {
