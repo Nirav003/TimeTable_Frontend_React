@@ -1,39 +1,29 @@
-import { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { userDataContext } from '../Context/UserContext';
+import Loader from './Loader/Loader';
 
-const ProtectRoute = ({
-    children,
-    allowedRoles
-}) => {
-    
-    const token = localStorage.getItem('token');
-    const user = useContext(userDataContext);
-    const navigate = useNavigate();
+const ProtectRoute = ({ children, allowedRoles }) => {
+  const { user, role, loading } = useContext(userDataContext);
+  const navigate = useNavigate();
 
-    const userRequiredRole = user && Array.isArray(allowedRoles) && allowedRoles.includes(user.role)
+  const userHasRequiredRole = user && Array.isArray(allowedRoles) && allowedRoles.includes(role);
 
-    useEffect(() => {
-        if (!token) {
-            navigate('/')
-        } 
-        
-        if(!user) {
-            navigate('/')
-        }
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate('/');  
+      } else if (!userHasRequiredRole) {
+        navigate('/unauthorized');
+      }
+    }
+  }, [user, userHasRequiredRole, navigate, loading]);
 
-        if (user && !userRequiredRole) {
-            navigate('/unauthorized')
-        }
+  if (loading) {
+    return <Loader />;  
+  }
 
-    }, [token, userRequiredRole, navigate]);
+  return <>{children}</>;
+};
 
-
-    return (
-        <>
-            {children}
-        </>
-    )
-}
-
-export default ProtectRoute
+export default ProtectRoute;

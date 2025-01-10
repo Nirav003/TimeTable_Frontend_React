@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 
 const CommitteeMembers = () => {
-
+  
   const professors = [
-    { name: "Prof. Dr. Ramanujan Sivaraman", designation: "Professor", emailId: "rsivaraman@gmail.com", phoneNumber: "9876543210" },
-    { name: "Prof. Dr. Sameer Kishore", designation: "Professor", emailId: "skishore@gmail.com", phoneNumber: "9876543210" },
-    { name: "Prof. Dr. Sudhir Kumar", designation: "Professor", emailId: "skumar@gmail.com", phoneNumber: "9876543210" },
-    { name: "Prof. Dr. Prasanna Kishore", designation: "Professor", emailId: "pkishore@gmail.com", phoneNumber: "9876543210" },
+    { _id: "1", name: "Prof. John Doe", designation: "Assistant Professor", emailId: "johndoe@example.com", phoneNo: "1234567890" },
+    { _id: "2", name: "Dr. Jane Smith", designation: "Professor", emailId: "janesmith@example.com", phoneNo: "0987654321" },
+    { _id: "3", name: "Mr. Michael Johnson", designation: "Associate Professor", emailId: "michaeljohnson@example.com", phoneNo: "9876543210" },
   ]
 
   return (
@@ -44,7 +43,7 @@ const CommitteeMembers = () => {
                   {professor.emailId}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.phoneNumber}/
+                  {professor.phoneNo}
                 </td>
               </tr>
             ))}
