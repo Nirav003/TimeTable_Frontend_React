@@ -21,6 +21,8 @@ const StreamSubjectMapping = () => {
         axios.get(`${API_URL}/college/stream`, { withCredentials: true }),
         axios.get(`${API_URL}/college/subject`, { withCredentials: true }),
       ]);
+      // console.log(streamsRes.data.stream);
+      // console.log(subjectsRes.data.subject);
       setStreams(streamsRes.data.stream);
       setSubjects(subjectsRes.data.subject);
     } catch (error) {
@@ -32,6 +34,7 @@ const StreamSubjectMapping = () => {
   const fetchMappings = async () => {
     try {
       const res = await axios.get(`${API_URL}/college/mapping/stream-subject`, { withCredentials: true });
+      console.log(res.data.mapping);
       setMappings(res.data.mapping);
     } catch (error) {
       console.error("Error fetching mappings:", error);
@@ -194,7 +197,7 @@ const StreamSubjectMapping = () => {
             {mappings.map((mapping) => (
               <tr key={mapping._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
-                  {`${mapping.stream.year.year} - ${mapping.stream.name} (${mapping.stream.specialisation})`}
+                  {`${mapping?.stream?.year?.year} - ${mapping?.stream?.name} (${mapping?.stream?.specialisation})`}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
                   {mapping.subjects.map((sub) => sub.name).join(", ")}
