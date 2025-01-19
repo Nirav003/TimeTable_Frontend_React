@@ -213,16 +213,16 @@ const Shift = () => {
             {shifts.map((shift) => (
               <tr key={shift._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift.timeSlot.day}
+                  {shift?.timeSlot?.day}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift.shiftNo}
+                  {shift?.shiftNo}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${shift.timeSlot.startTime} - ${shift.timeSlot.endTime}`}
+                  {`${shift?.timeSlot?.startTime} - ${shift?.timeSlot?.endTime}`}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${shift.timeSlot.lecture.lectureType} - ${shift.timeSlot.lecture.subject.name}`}
+                  {`${shift?.timeSlot?.lecture?.lectureType} - ${shift.timeSlot?.lecture?.subject?.name}`}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

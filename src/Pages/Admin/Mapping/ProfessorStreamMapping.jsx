@@ -32,7 +32,7 @@ const ProfessorStreamMapping = () => {
   const fetchMappings = async () => {
     try {
       const res = await axios.get(`${API_URL}/college/mapping/professor-stream`, { withCredentials: true });
-      console.log(res.data.mapping);
+      // console.log(res.data.mapping); 
       setMappings(res.data.mapping);
     } catch (error) {
       console.error("Error fetching mappings:", error);
@@ -214,15 +214,15 @@ const ProfessorStreamMapping = () => {
                 const { professor, stream } = mapping;
                 
                 return (
-                    <tr key={mapping._id}>
+                    <tr key={mapping?._id}>
                         <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
-                            {professor.name}
+                            {professor?.name}
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
                             {
                                 stream.map((stream) => (
                                     <div key={stream._id}>
-                                        {`${stream.name} (${stream.specialisation}) - ${stream.year.year}`}
+                                        {`${stream?.name} (${stream?.specialisation}) - ${stream?.year?.year}`}
                                     </div>
                                 ))
                             }

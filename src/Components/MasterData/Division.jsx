@@ -141,9 +141,9 @@ const Division = () => {
           </thead>
           <tbody>
             {divisions.map((division) => (
-              <tr key={division._id}>
+              <tr key={division?._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {division.division}
+                  {division?.division}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

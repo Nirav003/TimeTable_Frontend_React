@@ -318,19 +318,19 @@ const Lecture = () => {
             {lectures.map((lec) => (
               <tr key={lec._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {lec.lectureType}
+                  {lec?.lectureType}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {lec.subject.name}
+                  {lec?.subject?.name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {lec.room.room_no}
+                  {lec?.room?.room_no}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {lec.professor.name}
+                  {lec?.professor?.name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {lec.division ? lec.division.division : "No Division"}
+                  {lec?.division ? lec?.division?.division : "No Division"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

@@ -34,7 +34,7 @@ const StreamSubjectMapping = () => {
   const fetchMappings = async () => {
     try {
       const res = await axios.get(`${API_URL}/college/mapping/stream-subject`, { withCredentials: true });
-      console.log(res.data.mapping);
+      // console.log(res.data.mapping);
       setMappings(res.data.mapping);
     } catch (error) {
       console.error("Error fetching mappings:", error);
@@ -73,7 +73,7 @@ const StreamSubjectMapping = () => {
 
   // Handle delete
   const handleDelete = async (id) => {
-    console.log(id);
+    // console.log(id);
     
     if (window.confirm("Are you sure you want to delete this mapping?")) {
       try {
@@ -195,12 +195,12 @@ const StreamSubjectMapping = () => {
           </thead>
           <tbody>
             {mappings.map((mapping) => (
-              <tr key={mapping._id}>
+              <tr key={mapping?._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
                   {`${mapping?.stream?.year?.year} - ${mapping?.stream?.name} (${mapping?.stream?.specialisation})`}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
-                  {mapping.subjects.map((sub) => sub.name).join(", ")}
+                  {mapping?.subjects?.map((sub) => sub.name).join(", ")}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-offwhite-light text-sm text-center">
                   <button
@@ -210,7 +210,7 @@ const StreamSubjectMapping = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(mapping.stream._id)}
+                    onClick={() => handleDelete(mapping?.stream?._id)}
                     className="text-red-500 hover:text-red-700 font-bold py-1 px-3 rounded"
                   >
                     Delete
