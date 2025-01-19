@@ -277,19 +277,19 @@ const Professor = () => {
             {professors.map((professor) => (
               <tr key={professor._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.name}
+                  {professor?.name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.designation}
+                  {professor?.designation}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.emailId}
+                  {professor?.emailId}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {professor.phoneNumber}
+                  {professor?.phoneNumber}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${professor.stream.name} - ${professor.stream.specialisation} (${professor.stream.year.year})`}
+                  {`${professor?.stream?.name} - ${professor?.stream?.specialisation} (${professor?.stream?.year?.year})`}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button
