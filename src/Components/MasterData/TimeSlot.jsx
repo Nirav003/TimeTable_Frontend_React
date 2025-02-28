@@ -36,6 +36,7 @@ const TimeSlot = () => {
         withCredentials: true,
       })
       
+      // console.log(response.data.slot);
       setTimeSlots(response.data.slot);
       
     } catch (error) {
@@ -279,6 +280,9 @@ const TimeSlot = () => {
           <tbody>
             {timeSlots.map((ts) => (  
               <tr key={ts._id}>
+                {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {`${ts?.lecture?.lectureType} - ${ts?.lecture?.subject?.name} - ${ts?.lecture?.professor?.name} - ${ts.lecture.room.room_no}`}
+                </td> */}
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {`${ts?.lecture?.lectureType} - ${ts?.lecture?.subject?.name} - ${ts?.lecture?.professor?.name} - ${ts.lecture.room.room_no}`}
                 </td>
