@@ -27,12 +27,7 @@ const menu = [
         roles: ['management']
     },
     {
-        label: 'Users',
-        to: '/users',
-        roles: ['admin']
-    },
-    {
-        label: 'SignUp',
+        label: 'Add User',
         to: '/signup',
         roles: ['admin']
     }

@@ -7,7 +7,6 @@ import { API_URL } from '../../../Api/server';
 
 const Admin = () => {
   const { user } = useContext(userDataContext);
-  const [schedule, setSchedule] = useState({});
   const [timetable, setTimetable] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -22,15 +21,12 @@ const Admin = () => {
     setError('');
     try {
       const formattedDate = date.format('DD/MM/YYYY');
-      const { batch, year } = user;
-      const response = await axios.get(`${API_URL}/college/calendar`, {
-        params: { date: formattedDate, stream: batch, year },
+      const response = await axios.get(`${API_URL}/college/schedule/week`, {
+        params: { date: formattedDate },
         withCredentials: true,
       });
-
-      // console.log("Fetched Timetable:", response.data);
-      setSchedule(response.data.timetable);
-      setTimetable(response.data.timetable.shifts);
+      
+      setTimetable(response.data.timetable);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch timetable');
       setTimetable([]);
@@ -39,12 +35,11 @@ const Admin = () => {
     }
   };
 
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const prepareData = () => {
     const timeSlots = [];
-  
-    // Initialize empty time slots
+    
     for (let i = 7; i <= 18; i++) {
       const time = moment({ hour: i }).format('hh:00 A');
       timeSlots.push({
@@ -54,68 +49,61 @@ const Admin = () => {
         wednesday: null,
         thursday: null,
         friday: null,
-        saturday: null
+        saturday: null,
+        sunday: null
       });
     }
-  
-    // Ensure `timetable` is an array before iterating
+
     if (!Array.isArray(timetable)) {
       console.error("Timetable is not an array:", timetable);
-      return timeSlots; // Return empty slots if data is invalid
+      return timeSlots;
     }
-  
-    // Populate timetable with shifts
-    timetable.forEach((shift) => {
-      
-      if (!shift.timeSlot || !Array.isArray(shift.timeSlot)) {
-        console.warn("Skipping shift with invalid timeSlot:", shift);
-        return; // Skip invalid entries
+
+    timetable.forEach((daySchedule) => {
+      const dayIndex = daysOfWeek.indexOf(daySchedule.dayOfWeek);
+      if (daySchedule.holiday) {
+        timeSlots.forEach(slot => {
+          slot[daysOfWeek[dayIndex].toLowerCase()] = {
+            text: daySchedule.holiday,
+            isHoliday: true
+          };
+        });
+        return;
       }
-
       
-      shift.timeSlot.forEach((slot) => {
-
-        if (!slot.startTime || !schedule.dayOfWeek) {
-          console.warn("Skipping slot with missing data:", schedule);
-          return;
-        }
-  
-        const timeSlotFormatted = moment(slot.startTime, 'HH:mm').format('hh:00 A');
-        const dayColumn = daysOfWeek.find(day => day.toLowerCase() === schedule?.dayOfWeek?.toLowerCase());
-  
-        if (dayColumn) {
-          const row = timeSlots.find(item => item.time === timeSlotFormatted);
-          if (row) {
-            row[dayColumn.toLowerCase()] = slot.lecture || 'N/A';
+      daySchedule.shifts.forEach((shift) => {
+        shift.timeSlot.forEach((slot) => {
+          if (!slot.startTime || !daySchedule.dayOfWeek || slot.day !== daySchedule.dayOfWeek) {
+            return;
           }
-        }
+          
+          const timeSlotFormatted = moment(slot.startTime, 'hh:mm A').format('hh:00 A');
+          const dayColumn = daysOfWeek[dayIndex];
+
+          if (dayColumn) {
+            const row = timeSlots.find(item => item.time === timeSlotFormatted);
+            if (row) {
+              row[dayColumn.toLowerCase()] = renderLecture(slot.lecture) || 'N/A';
+            }
+          }
+        });
       });
     });
-  
+
     return timeSlots;
   };
-  
 
   const renderLecture = (lecture) => {
-    if (!lecture) return 'N/A';
     return (
       <div>
-        <div><strong>{lecture.subject?.name || 'N/A'}</strong></div>
-        <div>{lecture.professor?.name || 'N/A'}</div>
-        <div>{lecture.room?.room_no || 'N/A'}</div>
+        <b>
+          <h3>{lecture?.subject?.name}</h3>
+        </b>
+        <h4>{lecture?.professor?.name}</h4>
+        <h4>{lecture?.room?.room_no}</h4>
       </div>
     );
-  };
-
-  const columns = [
-    { title: 'Time', dataIndex: 'time', key: 'time' },
-    ...daysOfWeek.map(day => ({
-      title: day,
-      dataIndex: day.toLowerCase(),
-      key: day.toLowerCase(),
-      render: renderLecture
-    }))
-  ];
+  }
 
   return (
     <div className='p-5'>
@@ -138,7 +126,20 @@ const Admin = () => {
       ) : (
         <Table
           dataSource={prepareData()}
-          columns={columns}
+          columns={[
+            { title: 'Time', dataIndex: 'time', key: 'time' },
+            ...daysOfWeek.map(day => ({
+              title: day,
+              dataIndex: day.toLowerCase(),
+              key: day.toLowerCase(),
+              render: (lecture) => {
+                if(lecture?.isHoliday) {
+                  return <b className='bg-[#ffcccc] text-[#d8000c] font-bold text-center p-2 rounded-md'>{lecture?.text}</b>
+                }
+                return lecture || 'N/A'
+              }
+            }))
+          ]}
           rowKey={(record) => record.time}
           pagination={false}
         />
