@@ -143,7 +143,7 @@ const Subject = () => {
             {subjects.map((subject) => (
               <tr key={subject._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {subject.name}
+                  {subject?.name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

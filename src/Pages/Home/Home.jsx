@@ -5,15 +5,19 @@ import { userDataContext } from '../../Context/UserContext';
 const Home = () => {
 
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(userDataContext)
+  const { user } = useContext(userDataContext)  
 
   return (
     <div className=''>
       {loading ? <Loader /> : "Home"}
       {user && <div>
-        <p>{user?.name}</p>
-        <p>{user?.role}</p>
-      </div>}
+          <p>{user?._id}</p>
+          <p>{user?.name}</p>
+          <p>{user?.role}</p>
+          <p>{user?.batch}</p>
+          <p>{user?.year}</p>
+        </div>
+      }
     </div>
   )
 }

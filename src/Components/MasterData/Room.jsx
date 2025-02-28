@@ -225,16 +225,16 @@ const Room = () => {
             {rooms.map((room) => (
               <tr key={room._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {room.roomType}
+                  {room?.roomType}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {room.floor}
+                  {room?.floor}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {room.room_no}
+                  {room?.room_no}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {room.dimensions}
+                  {room?.dimensions}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

@@ -34,7 +34,7 @@ const handleLogin = async (e) => {
     const res = await axios.post(`${API_URL}/user/login`, formData, {withCredentials: true});
     const userDetail = res.data.user;
     const userRole = res.data.user.role;
-    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('token', res.data.token)    
     setUser(userDetail);
     setRole(userRole);
     toast.success("Login Successful");

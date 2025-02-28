@@ -9,50 +9,7 @@ import Shift from '../../Components/MasterData/Shift';
 import Year from '../../Components/MasterData/Year';
 import Lecture from '../../Components/MasterData/Lecture';
 import SelectFile from '../../Components/Select File/SelectFile';
-
-const initialRoom = {
-  roomType: '',
-  floor: '',
-  room_no: '',
-  dimentions: '',
-}
-
-const initialStream = {
-  name: '',
-  specialisation: '',
-}
-
-const initialProfessor = {
-  name: '',
-  designation: '',
-  emailId: '',
-  phoneNumber: '',
-}
-
-const initialSubject = {
-  name: ''
-}
-
-const initialDivision = {
-  division: '',
-}
-
-const initialTimeSlot = {
-  start_time: '',
-  end_time: '',
-  day: '',
-  slotType: '',
-  lecture: ''
-}
-
-const initialShift = {
-    shiftNo: '',
-    timeSlot: ''
-} 
-
-const initialYear = {
-    year: ''
-}
+import TimetableSchedule from '../../Components/MasterData/TimetableSchedule';
 
 const MasterData = () => {
     
@@ -103,6 +60,11 @@ const MasterData = () => {
             id: "lecture",
             label: "Lecture",
             Component: <Lecture />
+        } ,
+        {
+            id: "timetable-schedule",
+            label: "Timetable Schedule",
+            Component: <TimetableSchedule />
         } 
     ]
 
@@ -110,7 +72,7 @@ const MasterData = () => {
     <div className="flex max-w-screen mx-auto -translate-y-[6px] -translate-x-[16px]">
       <div className='w-1/5 px-5 h-full mt-12'>
         <ul>
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <li key={i} className={`mb-4 cursor-pointer ${currentSelectedTab === item.id ? 'underline underline-offset-2 decoration-2 decoration-primary-dark' : ''}`}>
               <button 
                 className="bg-offwhite-light w-full text-test2-3 text-center rounded-lg shadow-lg p-2 cursor-pointer" 

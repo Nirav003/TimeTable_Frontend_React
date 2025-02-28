@@ -143,7 +143,7 @@ const Year = () => {
             {years.map((year) => (
               <tr key={year._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {year.year}
+                  {year?.year}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button
