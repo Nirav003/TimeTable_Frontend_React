@@ -8,7 +8,7 @@ const Shift = () => {
   const [slots, setSlots] = useState([]);
   const [formData, setFormData] = useState({ 
     shiftNo : "",
-    timeSlot : ""
+    timeSlot : []
   });
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -67,7 +67,7 @@ const Shift = () => {
       }
       setFormData({ 
         shiftNo : "",
-        timeSlot : ""
+        timeSlot : []
       });
       setEditMode(false);
       setCurrentId(null);
@@ -96,7 +96,7 @@ const Shift = () => {
   const handleEdit = (shift) => {
     setFormData({ 
       shiftNo : shift.shiftNo,
-      timeSlot : shift.timeSlot._id
+      timeSlot : shift.timeSlot.map((sub) => sub._id)
     });
     setEditMode(true);
     setCurrentId(shift._id);
@@ -134,6 +134,8 @@ const Shift = () => {
                 <option value="3">3 (Evening)</option>
               </select>
             </div>
+          </div>
+          <div className="flex items-center justify-between w-full gap-6 mb-4">
             <div className="w-full">
               <label
                 htmlFor="timeSlot"
@@ -144,12 +146,17 @@ const Shift = () => {
               <select
                 type="text"
                 id="timeSlot"
+                multiple
                 value={formData.timeSlot}
-                onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    timeSlot: Array.from(e.target.selectedOptions, (opt) => opt.value),
+                  })
+                }
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               >
-                <option value="">Select Time Slot</option>
                 {
                   slots.map((slot, index) => (
                     <option key={index} value={slot._id}>
@@ -174,7 +181,7 @@ const Shift = () => {
                   setEditMode(false);
                   setFormData({ 
                     shiftNo : "",
-                    timeSlot : ""
+                    timeSlot : []
                   });
                   setCurrentId(null);
                 }}
@@ -213,16 +220,28 @@ const Shift = () => {
             {shifts.map((shift) => (
               <tr key={shift._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.timeSlot?.day}
+                  {shift?.timeSlot?.map((i) => (
+                    <li key={i._id} className="list-none">
+                      {i.day}
+                    </li>
+                  ))}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {shift?.shiftNo}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${shift?.timeSlot?.startTime} - ${shift?.timeSlot?.endTime}`}
+                  {shift?.timeSlot?.map((i) => (
+                    <li key={i._id} className="list-none">
+                      {`${i?.startTime} - ${i?.endTime}`}
+                    </li>
+                  ))}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${shift?.timeSlot?.lecture?.lectureType} - ${shift.timeSlot?.lecture?.subject?.name}`}
+                  {shift?.timeSlot?.map((i) => (
+                    <li key={i._id} className="list-none">
+                      {`${i?.lecture?.lectureType} - ${i?.lecture?.subject?.name}`}
+                    </li>
+                  ))}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

@@ -9,6 +9,7 @@ import Shift from '../../Components/MasterData/Shift';
 import Year from '../../Components/MasterData/Year';
 import Lecture from '../../Components/MasterData/Lecture';
 import SelectFile from '../../Components/Select File/SelectFile';
+import TimetableSchedule from '../../Components/MasterData/TimetableSchedule';
 
 const MasterData = () => {
     
@@ -59,6 +60,11 @@ const MasterData = () => {
             id: "lecture",
             label: "Lecture",
             Component: <Lecture />
+        } ,
+        {
+            id: "timetable-schedule",
+            label: "Timetable Schedule",
+            Component: <TimetableSchedule />
         } 
     ]
 
