@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../Api/server";
+import noData from '../../Pages/no data/noData';
 
 const Room = () => {
 
@@ -222,7 +223,7 @@ const Room = () => {
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room) => (
+            {rooms ? rooms.map((room) => (
               <tr key={room._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {room?.roomType}
@@ -251,7 +252,13 @@ const Room = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+            )) : 
+            <tr>
+              <td>
+                <noData />
+              </td>
+            </tr>
+            }
           </tbody>
         </table>
       </div>
