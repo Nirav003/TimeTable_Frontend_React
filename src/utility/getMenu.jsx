@@ -7,13 +7,23 @@ const menu = [
         roles: ['admin', 'student', 'management', 'staff']
     },
     {
-        label: 'Lecture',
+        label: 'View Timetable',
         to: '/lecture',
-        roles: ['admin', 'student', 'staff']
+        roles: ['student', 'staff']
+    },
+    {
+        label: 'Edit Timetable',
+        to: '/lecture',
+        roles: ['admin']
     },
     {
         label: 'Master Data',
         to: '/master-data',
+        roles: ['admin']
+    },
+    {
+        label: 'Schedule Timetable',
+        to: '/schedule-data',
         roles: ['admin']
     },
     {

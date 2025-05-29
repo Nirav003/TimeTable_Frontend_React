@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { Table, DatePicker, Spin, Alert } from 'antd';
+import { format } from 'date-fns';
+import DatePicker from '../../../Components/DatePicker/DatePicker';
+import { Table, Spin, Alert } from 'antd';
 import { userDataContext } from '../../../Context/UserContext';
 import { API_URL } from '../../../Api/server';
 
@@ -10,23 +12,25 @@ const Student = () => {
   const [timetable, setTimetable] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectedDate, setSelectedDate] = useState(moment());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const formattedDate = format(selectedDate, 'dd/MM/yyyy');
 
   useEffect(() => {
-    fetchTimetable(selectedDate);
+    fetchTimetable(formattedDate);    
   }, [selectedDate]);
 
   const fetchTimetable = async (date) => {
     setLoading(true);
     setError('');
     try {
-      const formattedDate = date.format('DD/MM/YYYY');
       const response = await axios.get(`${API_URL}/college/schedule/week`, {
-        params: { date: formattedDate },
+        params: { date: date },
         withCredentials: true,
       });
       
       setTimetable(response.data.timetable);
+      console.log(response.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch timetable');
       setTimetable([]);
@@ -107,11 +111,10 @@ const Student = () => {
       <div className='mb-5 flex items-center justify-between'>
         <h2>Weekly Timetable</h2>
         <div className='flex items-center gap-3'>
-          <h3>Date:</h3>
-          <DatePicker
-            onChange={(date) => setSelectedDate(date)}
-            defaultValue={moment()}
-            format={'DD/MM/YYYY'}
+          <h3 className='text-lg font-medium'>Date :</h3>
+          <DatePicker 
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
           />
         </div>
       </div>
