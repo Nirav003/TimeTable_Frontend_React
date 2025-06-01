@@ -2,29 +2,47 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../Api/server"; 
 
+const generateTimeOptions = () => {
+  const times = [];
+  const startHour = 7;
+  const endHour = 18; 
+
+  for (let hour = startHour; hour <= endHour; hour++) {
+    const period = hour < 12 ? "AM" : "PM";
+    const displayHour = hour > 12 ? hour - 12 : hour;
+    times.push(`${displayHour}:00 ${period}`); // , `${displayHour}:30 ${period}`
+  }
+
+  return times;
+};
+
 const Shift = () => {
 
   const [shifts, setShifts] = useState([]);
-  const [slots, setSlots] = useState([]);
+  const [streams, setStreams] = useState([]);
   const [formData, setFormData] = useState({ 
     shiftNo : "",
-    timeSlot : []
+    startTime : "",
+    endTime : "",
+    day: "",
+    date: "",
+    stream : ""
   });
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
+  
 
-  // Fetch all Data
-  const fetchSlots = async () => {
+  // Fetch all streams
+  const fetchStreams = async () => {
     try {
-      const response = await axios.get(`${API_URL}/college/timeslot`, {
+      const response = await axios.get(`${API_URL}/college/stream`, {
         withCredentials: true,
-      })
-
-      console.log(response.data.slot);
+      });
+      // console.log(response.data.stream);
       
-      setSlots(response.data.slot)
+      setStreams(response.data.stream);
     } catch (error) {
-      console.error("Error fetching timeslot:", error);
+      console.error("Error fetching streams:", error);
     }
   };
 
@@ -44,7 +62,7 @@ const Shift = () => {
   };
 
   useEffect(() => {
-    fetchSlots();
+    fetchStreams();
     fetchShifts();
   }, []);
 
@@ -67,8 +85,12 @@ const Shift = () => {
       }
       setFormData({ 
         shiftNo : "",
-        timeSlot : []
-      });
+        startTime : "",
+        endTime : "",
+        day: "",
+        date: "",
+        stream : ""
+      }); 
       setEditMode(false);
       setCurrentId(null);
       fetchShifts();
@@ -96,7 +118,11 @@ const Shift = () => {
   const handleEdit = (shift) => {
     setFormData({ 
       shiftNo : shift.shiftNo,
-      timeSlot : shift.timeSlot.map((sub) => sub._id)
+      startTime : shift.startTime,
+      endTime : shift.endTime,
+      day: shift.day,
+      date: shift.date,
+      stream : shift.stream ? shift.stream._id : "",
     });
     setEditMode(true);
     setCurrentId(shift._id);
@@ -134,33 +160,105 @@ const Shift = () => {
                 <option value="3">3 (Evening)</option>
               </select>
             </div>
+            <div className="w-full">
+              <label
+                htmlFor="date"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Date
+              </label>
+              <div>
+              <input
+                type="date"
+                id="date"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+                {/* <DatePicker selectedDate={formData.date} setSelectedDate={formData.date} /> */}
+              </div>
+            </div>
           </div>
           <div className="flex items-center justify-between w-full gap-6 mb-4">
             <div className="w-full">
               <label
-                htmlFor="timeSlot"
+                htmlFor="startTime"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                Time Slot
+                Start Time
+              </label>
+              <input
+                type="time"
+                id="startTime"
+                value={formData.startTime || ""}
+                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="endTime"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                End Time
+              </label>
+              <input
+                type="time"
+                id="endTime"
+                value={formData.endTime || ""}
+                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between w-full gap-6 mb-4">
+            <div className="w-full">
+              <label
+                htmlFor="day"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Day
               </label>
               <select
                 type="text"
-                id="timeSlot"
-                multiple
-                value={formData.timeSlot}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    timeSlot: Array.from(e.target.selectedOptions, (opt) => opt.value),
-                  })
-                }
+                id="day"
+                value={formData.day}
+                onChange={(e) => setFormData({ ...formData, day: e.target.value })}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               >
+                <option value="">Select Day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+              </select>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="stream"
+                className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                Stream
+              </label>
+              <select
+                type="text"
+                id="stream"
+                value={formData.stream}
+                onChange={(e) => setFormData({ ...formData, stream: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              >
+                <option value="">Select Stream</option>
                 {
-                  slots.map((slot, index) => (
-                    <option key={index} value={slot._id}>
-                      {`${slot.day} | ${slot.startTime} - ${slot.endTime} | ${slot.lecture.lectureType} | ${slot.lecture.subject.name}`}
+                  streams.map((stream, index) => (
+                    <option key={index} value={stream._id}>
+                      {`${stream.name} - ${stream.specialisation} (${stream.year.year})`}
                     </option>
                   ))
                 }
@@ -172,7 +270,7 @@ const Shift = () => {
               type="submit"
               className="bg-test2-3 hover:bg-test2-2 text-offwhite-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              {editMode ? "Update Shift" : "Add Shift"}
+              {editMode ? "Update Shift" : "Create Shift"}
             </button>
             {editMode && (
               <button
@@ -181,7 +279,11 @@ const Shift = () => {
                   setEditMode(false);
                   setFormData({ 
                     shiftNo : "",
-                    timeSlot : []
+                    startTime : "",
+                    endTime : "",
+                    day: "",
+                    date: "",
+                    stream : ""
                   });
                   setCurrentId(null);
                 }}
@@ -200,16 +302,22 @@ const Shift = () => {
           <thead>
             <tr>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Date
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Day
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Shift
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
-                Time Slot
+                Start Time
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
-                Lecture
+                End Time
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Stream
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Actions
@@ -220,28 +328,22 @@ const Shift = () => {
             {shifts.map((shift) => (
               <tr key={shift._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.timeSlot?.map((i) => (
-                    <li key={i._id} className="list-none">
-                      {i.day}
-                    </li>
-                  ))}
+                  {shift?.date}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {shift?.day}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {shift?.shiftNo}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.timeSlot?.map((i) => (
-                    <li key={i._id} className="list-none">
-                      {`${i?.startTime} - ${i?.endTime}`}
-                    </li>
-                  ))}
+                  {shift?.startTime}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.timeSlot?.map((i) => (
-                    <li key={i._id} className="list-none">
-                      {`${i?.lecture?.lectureType} - ${i?.lecture?.subject?.name}`}
-                    </li>
-                  ))}
+                  {shift?.endTime}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {shift?.stream ? `${shift.stream.name} - ${shift.stream.specialisation} (${shift.stream.year.year})` : "N/A"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button
