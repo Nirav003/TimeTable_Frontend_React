@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from '../Pages/Home/Home'
 import Lecture from '../Pages/Lecture/Lecture'
 import MasterData from '../Pages/Admin/MasterData'
+import ScheduleData from '../Pages/Admin/ScheduleData'
 import Login from '../Pages/Auth/Login'
 import SignUp from '../Pages/Admin/SignUp'
 import ProtectRoute from '../Components/ProtectRoute'
@@ -33,6 +34,12 @@ const Router = () => {
         <Route path='/master-data' element={
           <ProtectRoute allowedRoles={['admin']}>
             <MasterData />
+          </ProtectRoute>
+        } />
+
+        <Route path='/schedule-data' element={
+          <ProtectRoute allowedRoles={['admin']}>
+            <ScheduleData />
           </ProtectRoute>
         } />
         
