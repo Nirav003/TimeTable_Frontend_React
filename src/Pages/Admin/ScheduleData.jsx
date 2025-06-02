@@ -1,47 +1,35 @@
 import React, { useState } from 'react'
-import Room from '../../Components/MasterData/Room';
-import Stream from '../../Components/MasterData/Stream';
-import Professor from '../../Components/MasterData/Professor';
-import Subject from '../../Components/MasterData/Subject';
-import Division from '../../Components/MasterData/Division';
-import Year from '../../Components/MasterData/Year';
+import Shift from '../../Components/MasterData/Shift';
+import TimeSlot from '../../Components/MasterData/TimeSlot';
+import Lecture from '../../Components/MasterData/Lecture';
+import TimetableSchedule from '../../Components/MasterData/TimetableSchedule';
 import SelectFile from '../../Components/Select File/SelectFile';
 
-const MasterData = () => {
+const ScheduleData = () => {
     
     const [currentSelectedTab, setCurrentSelectedTab] = useState('');
 
-    const data = [
+    const data = [ 
         {
-          id: "room",
-          label: "Room",
-          Component: <Room />
-        }, 
+          id: "shift",
+          label: "Shift",
+          Component: <Shift />
+        },
         {
-          id: "stream",
-          label: "Stream",
-          Component: <Stream />
-        }, 
+          id: "timeslot",
+          label: "Timeslot",
+          Component: <TimeSlot />
+        },
         {
-          id: "year",
-          label: "Year",
-          Component: <Year />
-        }, 
+            id: "lecture",
+            label: "Lecture",
+            Component: <Lecture />
+        } ,
         {
-          id: "professor",
-          label: "Professor",
-          Component: <Professor />
-        }, 
-        {
-          id: "subject",
-          label: "Subject",
-          Component: <Subject />
-        }, 
-        {
-          id: "devision",
-          label: "Division",
-          Component: <Division />
-        },  
+            id: "timetable-schedule",
+            label: "Timetable Schedule",
+            Component: <TimetableSchedule />
+        } 
     ]
 
   return (
@@ -70,4 +58,4 @@ const MasterData = () => {
   )
 }
 
-export default MasterData
+export default ScheduleData
