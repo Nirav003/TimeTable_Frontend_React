@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../Api/server"; 
-
-const generateTimeOptions = () => {
-  const times = [];
-  const startHour = 7;
-  const endHour = 18; 
-
-  for (let hour = startHour; hour <= endHour; hour++) {
-    const period = hour < 12 ? "AM" : "PM";
-    const displayHour = hour > 12 ? hour - 12 : hour;
-    times.push(`${displayHour}:00 ${period}`); // , `${displayHour}:30 ${period}`
-  }
-
-  return times;
-};
+import moment from "moment/moment";
 
 const Shift = () => {
 
@@ -171,12 +158,19 @@ const Shift = () => {
               <input
                 type="date"
                 id="date"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                value={formData.date ? moment(formData.date, "YYYY-MM-DD").format("YYYY-MM-DD") : ""}
+                onChange={(e) => {
+                  const formattedDate = moment(e.target.value, "YYYY-MM-DD").format("YYYY-MM-DD");
+                  const dayOfWeek = moment(e.target.value, "YYYY-MM-DD").format("dddd");
+                  setFormData({
+                    ...formData,
+                    date: formattedDate,
+                    day: dayOfWeek,
+                  });
+                }}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
-                {/* <DatePicker selectedDate={formData.date} setSelectedDate={formData.date} /> */}
               </div>
             </div>
           </div>
@@ -222,22 +216,14 @@ const Shift = () => {
               >
                 Day
               </label>
-              <select
+              <input
                 type="text"
                 id="day"
                 value={formData.day}
-                onChange={(e) => setFormData({ ...formData, day: e.target.value })}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                readOnly
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight bg-gray-100 focus:outline-none focus:shadow-outline"
                 required
-              >
-                <option value="">Select Day</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-              </select>
+              />
             </div>
             <div className="w-full">
               <label
@@ -270,7 +256,7 @@ const Shift = () => {
               type="submit"
               className="bg-test2-3 hover:bg-test2-2 text-offwhite-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              {editMode ? "Update Shift" : "Create Shift"}
+              {editMode ? "Update Shift" : "Save Shift"}
             </button>
             {editMode && (
               <button
@@ -328,7 +314,7 @@ const Shift = () => {
             {shifts.map((shift) => (
               <tr key={shift._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.date}
+                  {shift?.date ? moment(shift.date).format("YYYY-MM-DD") : ""}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {shift?.day}
