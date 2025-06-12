@@ -8,7 +8,9 @@ const TimeSlot = () => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [shifts, setShifts] = useState([]);
   const [formData, setFormData] = useState({ 
-    shiftId: ""
+    shiftId: "",
+    startTime: "",
+    endTime: "",
   });
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -66,7 +68,9 @@ const TimeSlot = () => {
         );
       }
       setFormData({ 
-        shiftId: ""
+        shiftId: "",
+        startTime: "",
+        endTime: "",
       });
       setEditMode(false);
       setCurrentId(null);
@@ -96,7 +100,9 @@ const TimeSlot = () => {
     console.log("Editing timeslot:", timeslot);
     
     setFormData({ 
-      shiftId: timeslot.shiftId,  
+      shiftId: timeslot.shiftId,
+      startTime: timeslot.startTime,
+      endTime: timeslot.endTime,  
     });
     setEditMode(true);
     setCurrentId(timeslot._id);
@@ -155,7 +161,7 @@ const TimeSlot = () => {
                 <option value="">Select Shift</option>
                 {shifts.map((shift) => (
                   <option key={shift._id} value={shift._id}>
-                    {`Shift ${shift.shiftNo} - ${shift.day} (${moment(shift.date).format("YYYY-MM-DD")})`}
+                    {`Shift ${shift.shiftNo} - ${shift.day} (${moment(shift.date).format("DD-MM-YYYY")})`}
                   </option>
                 ))}
               </select>
@@ -208,6 +214,40 @@ const TimeSlot = () => {
               />
             </div>
           </div>
+          <div className="flex items-center justify-between w-full gap-6 mb-4">
+            <div className="w-full">
+              <label
+                htmlFor="startTime"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                Start Time
+              </label>
+              <input
+                type="time"
+                id="startTime"
+                value={formData.startTime || ""}
+                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="endTime"
+                className="block text-gray-700 text-sm font-bold mb-2"
+              >
+                End Time
+              </label>
+              <input
+                type="time"
+                id="endTime"
+                value={formData.endTime || ""}
+                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+          </div>
           <div className="flex items-center justify-between">
             <button
               type="submit"
@@ -221,10 +261,9 @@ const TimeSlot = () => {
                 onClick={() => {
                   setEditMode(false);
                   setFormData({ 
-                    day : "",
+                    shiftId : "",
                     startTime : "",
                     endTime: "",
-                    lecture : "",
                   });
                   setCurrentId(null);
                 }}
@@ -239,14 +278,19 @@ const TimeSlot = () => {
 
       {/* Lecture List */}
       <div className="overflow-x-auto bg-white shadow-md rounded">
-        <table className="min-w-full leading-normal">
-          <thead>
+        <table className="min-w-full leading-normal">          <thead>
             <tr>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
-                Lecture
+                Sr. No.
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
-                Day
+                Date
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Shift No
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Day of Week
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Start Time
@@ -258,24 +302,27 @@ const TimeSlot = () => {
                 Actions
               </th>
             </tr>
-          </thead>
+          </thead>          
           <tbody>
-            {/* {timeSlots.map((ts) => (  
+            {timeSlots.map((ts, i) => (
               <tr key={ts._id}>
-                {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${ts?.lecture?.lectureType} - ${ts?.lecture?.subject?.name} - ${ts?.lecture?.professor?.name} - ${ts.lecture.room.room_no}`}
-                </td> 
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {`${ts?.lecture?.lectureType} - ${ts?.lecture?.subject?.name} - ${ts?.lecture?.professor?.name} - ${ts.lecture.room.room_no}`}
+                  {i+1}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {ts?.day}
+                  {ts?.Shift?.date ? moment(ts.Shift.date).format("DD-MM-YYYY") : "N/A"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {ts?.startTime}
+                  {ts?.Shift?.shiftNo || "N/A"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {ts?.endTime}
+                  {ts?.Shift?.day || "N/A"}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {ts?.startTime || "N/A"}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {ts?.endTime || "N/A"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button
@@ -292,7 +339,7 @@ const TimeSlot = () => {
                   </button>
                 </td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>

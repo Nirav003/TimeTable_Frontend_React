@@ -26,7 +26,7 @@ const UserContext = ({ children }) => {
           });
 
           if (response.status === 200) {
-            const data = response.data;          
+            const data = response.data;                      
             setUser(data.user);
             setRole(data.user.role);
           } else {

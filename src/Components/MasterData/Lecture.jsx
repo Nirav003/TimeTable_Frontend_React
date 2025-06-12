@@ -9,12 +9,16 @@ const Lecture = () => {
   const [rooms, setRooms] = useState([]);
   const [professors, setProfessors] = useState([]);
   const [divisions, setDivisions] = useState([]);
+  const [streams, setStreams] = useState([]);
+  const [timeSlots, setTimeSlots] = useState([]);
   const [formData, setFormData] = useState({ 
     lectureType : "",
     subject : "",
     room: "",
     professor : "",
-    division: ""
+    division: "",
+    stream: "",
+    timeSlot: ""
   });
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
@@ -22,7 +26,7 @@ const Lecture = () => {
   // Fetch all Data
   const fetchData = async () => {
     try {
-      const [ subjects, rooms, professors, divisions ] = await Promise.all([
+      const [ subjects, rooms, professors, divisions, streams, timeSlots ] = await Promise.all([
         axios.get(`${API_URL}/college/subject`, {
           withCredentials: true,
         }),
@@ -35,12 +39,20 @@ const Lecture = () => {
         axios.get(`${API_URL}/college/division`, {
           withCredentials: true,
         }),
+        axios.get(`${API_URL}/college/stream`, {
+          withCredentials: true,
+        }),
+        axios.get(`${API_URL}/college/timeslot`, {
+          withCredentials: true,
+        }),
       ])
       
       setSubjects(subjects.data.subject)
       setRooms(rooms.data.room)
       setDivisions(divisions.data.division)
       setProfessors(professors.data.professor)
+      setStreams(streams.data.stream)
+      setTimeSlots(timeSlots.data.slot)
       
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -72,10 +84,13 @@ const Lecture = () => {
     const data = {
       ...formData,
       division: formData.division === "" ? null : formData.division, 
+      stream: formData.stream === "" ? null : formData.stream,
+      timeSlot: formData.timeSlot === "" ? null : formData.timeSlot
     }
 
     try {
       if (editMode) {
+        console.log("Creating lecture:", data);
         await axios.patch(
           `${API_URL}/college/lecture/${currentId}`,
           data,
@@ -92,7 +107,9 @@ const Lecture = () => {
         subject : "",
         room: "",
         professor : "",
-        division: ""
+        division: "",
+        stream: "",
+        timeSlot: ""
       });
       setEditMode(false);
       setCurrentId(null);
@@ -119,16 +136,22 @@ const Lecture = () => {
 
   // Populate form for editing
   const handleEdit = (lecture) => {
+    console.log("Editing lecture:", lecture);
+    
     setFormData({ 
       lectureType : lecture.lectureType,
       subject : lecture.subject._id,
       room: lecture.room._id,
       professor : lecture.professor._id,
-      division: lecture.division ? lecture.division._id : ""
+      division: lecture.division ? lecture.division._id : "",
+      stream: lecture.stream ? lecture.stream._id : "",
+      timeSlot: lecture.timeSlot ? lecture.timeSlot._id : ""
     });
     setEditMode(true);
     setCurrentId(lecture._id);
-  };
+  };  
+  console.log("Form Data:", formData);
+  
 
   return (
     <div className="container mx-auto p-6">
@@ -259,12 +282,52 @@ const Lecture = () => {
               </select>
             </div>
           </div>
+          <div className="flex items-center justify-between w-full gap-6 mb-4">
+            <div className="w-full">
+              <label
+                htmlFor="stream"
+                className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                Stream
+              </label>
+              <select
+                id="stream"
+                value={formData.stream}
+                onChange={(e) => setFormData({ ...formData, stream: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="">Select Stream</option>
+                {streams.map((stream, index) => (
+                  <option key={index} value={stream._id}>{stream.year.year} - {stream.name} {stream.specialisation}</option>
+                ))}
+              </select>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="timeSlot"
+                className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                Time Slot
+              </label>
+              <select
+                id="timeSlot"
+                value={formData.timeSlot}
+                onChange={(e) => setFormData({ ...formData, timeSlot: e.target.value })}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="">Select Time Slot</option>
+                {timeSlots.map((slot, index) => (
+                  <option key={index} value={slot._id}>{slot.name || `${slot.startTime} - ${slot.endTime}`}</option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className="flex items-center justify-between">
             <button
               type="submit"
               className="bg-test2-3 hover:bg-test2-2 text-offwhite-dark font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              {editMode ? "Update Lecture" : "Add Lecture"}
+              {editMode ? "Update Lecture" : "Save Lecture"}
             </button>
             {editMode && (
               <button
@@ -276,7 +339,9 @@ const Lecture = () => {
                     subject : "",
                     room: "",
                     professor : "",
-                    division: ""
+                    division: "",
+                    stream: "",
+                    timeSlot: ""
                   });
                   setCurrentId(null);
                 }}
@@ -295,6 +360,9 @@ const Lecture = () => {
           <thead>
             <tr>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                SR. NO.
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Lecture
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
@@ -310,13 +378,22 @@ const Lecture = () => {
                 Division
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Stream
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                Time Slot
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {lectures.map((lec) => (
+            {lectures.map((lec, i) => (
               <tr key={lec._id}>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {i+1}
+                </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {lec?.lectureType}
                 </td>
@@ -331,6 +408,12 @@ const Lecture = () => {
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {lec?.division ? lec?.division?.division : "No Division"}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {lec?.stream ? (`${lec?.stream?.year?.year} - ${lec?.stream?.name} ${lec?.stream?.specialisation}`) : "No Stream"}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {lec?.timeSlot ? (`${lec?.timeSlot?.startTime} - ${lec?.timeSlot?.endTime}`) : "No Time Slot"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   <button

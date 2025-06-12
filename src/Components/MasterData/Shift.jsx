@@ -288,6 +288,9 @@ const Shift = () => {
           <thead>
             <tr>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
+                SR. NO.
+              </th>
+              <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
                 Date
               </th>
               <th className="px-5 py-3 bg-gray-100 border-b border-gray-200 text-gray-800 text-center text-sm uppercase font-normal">
@@ -311,10 +314,13 @@ const Shift = () => {
             </tr>
           </thead>
           <tbody>
-            {shifts.map((shift) => (
+            {shifts.map((shift, i) => (
               <tr key={shift._id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                  {shift?.date ? moment(shift.date).format("YYYY-MM-DD") : ""}
+                  {i+1}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                  {shift?.date ? moment(shift.date).format("DD-MM-YYYY") : ""}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                   {shift?.day}
